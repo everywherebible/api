@@ -18,14 +18,14 @@ echo deploying...
 # rely on some existing authentication)
 if [ $TRAVIS ]; then
   openssl aes-256-cbc \
-    -K $encrypted_025a83c067be_key \
-    -iv $encrypted_025a83c067be_iv \
-    -in everywherebible-deploy-key.enc \
-    -out everywherebible-deploy-key \
+    -K $encrypted_445dbfeb770e_key \
+    -iv $encrypted_445dbfeb770e_iv \
+    -in everywherebible-api-deploy-key.enc \
+    -out everywherebible-api-deploy-key \
     -d
-  chmod 600 everywherebible-deploy-key
+  chmod 600 everywherebible-api-deploy-key
   eval `ssh-agent -s`
-  ssh-add everywherebible-deploy-key
+  ssh-add everywherebible-api-deploy-key
 fi
 
 msg="master@`git log --pretty=oneline -n 1 --abbrev-commit`"

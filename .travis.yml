@@ -2,4 +2,7 @@ language: python
 python: ["2.7"]
 install: true
 script: python -m unittest discover && python -m everywherebible build
-# after_success: bin/deploy
+after_success: bin/deploy
+env:
+  global:
+    secure: MO+I3l8Ev8IKNPBpqT9CX3Wz6zOk+0G4V1nP0WDmjVt4Gttw2r15fvNy4UbFGdsFFhC15E+NG28LI+w83b+MFKZVA57hTsQGLpYjzkw438AOsmmYwimQ300u5KonEtJw1Wbq6qoGvDrp3N5aPGqRpQiXqExAKI8C3piRWpmzKOObNMUT9MxoLfVgT7F0MDQmSXpn9COnxBOGaUXLlumnlkI0RiWhOKoASk5dCUA5KYR71fwvHcConV+MDZDkKQAh+ikRAGeDxxFKNK46A27Wjrb0G22386GHGpUBBi2cjioOltKkUSkHM+4VGTz/ny6AenV+sQd9C5wpBinBgOlJNlFNGALnWAZJpZl6+Kchoh1x3w3Z6ogxpyMnNV9gonGeI9Wn9qZZhJvmGXWkt8nMXMvizvIht5HYnEbgn6tKKLgnCHWu2pO7mePOyetttBEyfg9HFx5e1Qq9uOCJEPCCIvt31ivQBLsuWfor9qkwK1gqGqqqllYXIAjQST2ROTx66H/r+MA2tisdm6bEx6E3VfYB68/awW2PSjMngNs7s4GraBKeCn6+BsKd9KZyQ1kGp+A8d6QVEzzLtCt3st5fGh391sVXAPf8EjBCxjUK3jyuhCtEQmvtcIsg8bzqOLHpIuel4LtAMLf0fqVZSlbI9DJ/6ZBM4Q/Hg9cCVLOOR+g=
