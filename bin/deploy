@@ -1,0 +1,67 @@
+#!/bin/bash -e
+
+if [ "$TRAVIS" ]; then
+  if [ "$TRAVIS_PULL_REQUEST" != false ] || [ "$TRAVIS_BRANCH" != master ]; then
+    echo not deploying since this isn\'t the master branch
+    exit
+  fi
+fi
+
+if ! [ -e build ]; then
+  echo build directory does not exist >&2
+  exit 2
+fi
+
+echo deploying...
+
+# if we're in a travis build, decrypt and use the deploy key (otherwise just
+# rely on some existing authentication)
+if [ $TRAVIS ]; then
+  openssl aes-256-cbc \
+    -K $encrypted_025a83c067be_key \
+    -iv $encrypted_025a83c067be_iv \
+    -in everywherebible-deploy-key.enc \
+    -out everywherebible-deploy-key \
+    -d
+  chmod 600 everywherebible-deploy-key
+  eval `ssh-agent -s`
+  ssh-add everywherebible-deploy-key
+fi
+
+msg="master@`git log --pretty=oneline -n 1 --abbrev-commit`"
+
+git clone \
+  -b gh-pages \
+  --single-branch \
+  --depth 1 \
+  git@github.com:everywherebible/api.git \
+  deployrepo
+
+cp deployrepo/{.nojekyll} ./
+rm -rf deployrepo/*
+cp -r build/* deployrepo/
+cp .nojekyll deployrepo/
+cd deployrepo
+
+if ! git diff 2>&1 1>/dev/null; then
+  echo no changes, exiting
+  exit
+fi
+
+git add .
+git commit -am "$msg"
+
+git remote -v
+git push
+
+sleep 10 # give gh-pages a bit to build
+
+curl \
+  -v \
+  -X DELETE \
+  "https://api.cloudflare.com/client/v4/zones/17867d44bbb40befba62a2b8b6816e53/purge_cache" \
+  -H "X-Auth-Email: aaron.r.stacy@gmail.com" \
+  -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
+  -H "Content-Type: application/json" \
+  --data '{"purge_everything":true}' \
+  2>&1 | grep -v X-Auth-Key
