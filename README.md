@@ -1,5 +1,7 @@
 # Everywhere Bible API
 
+[![Build Status](https://travis-ci.org/everywherebible/api.svg?branch=master)](https://travis-ci.org/everywherebible/api)
+
 This generates the static files for the Everywhere Bible API. This is currently
 only used for public domain Bibles, and currently only supports KJV.
 
