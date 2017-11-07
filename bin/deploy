@@ -37,7 +37,8 @@ git clone \
   git@github.com:everywherebible/api.git \
   deployrepo
 
-cp deployrepo/{.nojekyll} ./
+ls -l deployrepo
+cp deployrepo/.nojekyll ./
 rm -rf deployrepo/*
 cp -r build/* deployrepo/
 cp .nojekyll deployrepo/
