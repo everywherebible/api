@@ -1,7 +1,7 @@
 language: python
 python: ["2.7"]
 install: true
-script: python -m unittest discover && python -m everywherebible build
+script: python -m unittest discover && python -m everywherebible build/v1/kjv
 after_success: bin/deploy
 env:
   global:
