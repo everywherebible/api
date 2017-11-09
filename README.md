@@ -17,8 +17,9 @@ For a full description, run:
 
 ## Deploying
 
-Push to the master branch of this repository to deploy. This generates the
-files to the `gh-pages` branch, which is fronted by Cloudflare.
+Push to the master branch of this repository to deploy to
+https://everywherebible.org/api/v1/kjv/genesis/1.html. This generates the files
+to the `gh-pages` branch, which is fronted by Cloudflare.
 
 ## Testing
 
