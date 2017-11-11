@@ -81,7 +81,7 @@ BOOKS = OrderedDict([
 
 BOOK_RE = re.compile(r'^([A-Z0-9]{3})(\d{1,3})\.htm$')
 VERSE_ID_RE = re.compile(r'^V(\d+)')
-
+LEADING_P_RE = re.compile('^\xc2\s*')
 
 def chapters(files):
     matches = (BOOK_RE.match(f) for f in files if BOOK_RE.match(f))
@@ -241,20 +241,31 @@ def wrap_verse_with_span(g):
         yield (type, val, meta, stack)
 
 
+def text_transform(transform, g):
+    for type, val, meta, stack in g:
+        if type == 'text':
+            val = transform(val)
+        yield (type, val, meta, stack)
+
+
 def transform(fname, g):
     return wrap_verse_with_span(
             add_chapter_header(
                 translate_verse_ids(
                     translate_class('main', 'kjv',
                         translate_class('verse', 'verse-num',
-                            class_to_tag('p', 'p',
-                                class_to_tag('q', 'blockquote',
-                                    strip_by_class('copyright',
-                                        strip_by_class('tnav',
-                                            strip_by_class('popup',
-                                                only_body(
-                                                    with_stack(
-                                                        with_chapter_meta(fname, g)))))))))))))
+                            translate_class('notemark', 'footnote',
+                                translate_class('footnote', 'footnotes',
+                                    class_to_tag('p', 'p',
+                                        class_to_tag('q', 'blockquote',
+                                            strip_by_class('chapterlabel',
+                                                strip_by_class('copyright',
+                                                    strip_by_class('tnav',
+                                                        strip_by_class('popup',
+                                                            text_transform(lambda s: LEADING_P_RE.sub('', s),
+                                                                only_body(
+                                                                    with_stack(
+                                                                        with_chapter_meta(fname, g)))))))))))))))))
 
 
 def generate(outdir):
