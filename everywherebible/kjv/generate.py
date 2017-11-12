@@ -252,20 +252,21 @@ def transform(fname, g):
     return wrap_verse_with_span(
             add_chapter_header(
                 translate_verse_ids(
-                    translate_class('main', 'kjv',
-                        translate_class('verse', 'verse-num',
-                            translate_class('notemark', 'footnote',
-                                translate_class('footnote', 'footnotes',
-                                    class_to_tag('p', 'p',
-                                        class_to_tag('q', 'blockquote',
-                                            strip_by_class('chapterlabel',
-                                                strip_by_class('copyright',
-                                                    strip_by_class('tnav',
-                                                        strip_by_class('popup',
-                                                            text_transform(lambda s: LEADING_P_RE.sub('', s),
-                                                                only_body(
-                                                                    with_stack(
-                                                                        with_chapter_meta(fname, g)))))))))))))))))
+                    translate_class('wj', 'woc',
+                        translate_class('main', 'kjv',
+                            translate_class('verse', 'verse-num',
+                                translate_class('notemark', 'footnote',
+                                    translate_class('footnote', 'footnotes',
+                                        class_to_tag('p', 'p',
+                                            class_to_tag('q', 'blockquote',
+                                                strip_by_class('chapterlabel',
+                                                    strip_by_class('copyright',
+                                                        strip_by_class('tnav',
+                                                            strip_by_class('popup',
+                                                                text_transform(lambda s: LEADING_P_RE.sub('', s),
+                                                                    only_body(
+                                                                        with_stack(
+                                                                            with_chapter_meta(fname, g))))))))))))))))))
 
 
 def generate(outdir):
